@@ -14,6 +14,14 @@
                 "run",
                 "build"
             ]
+        },
+        {
+            "name": "node",
+            "entrypoint": "npm",
+            "args" [
+                "run",
+                "deploy"
+            ]
         }
     ]
 }
