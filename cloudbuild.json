@@ -16,10 +16,8 @@
             ]
         },
         {
-            "name": "node",
-            "entrypoint": "npm",
+            "name": "gcr.io/$PROJECT_ID/firebase",
             "args": [
-                "run",
                 "deploy"
             ]
         }
