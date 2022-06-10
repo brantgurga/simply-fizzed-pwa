@@ -3,12 +3,16 @@ import { StyledFirebaseAuth } from 'react-firebaseui';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { Button } from "@mui/material";
+import firebaseui from "firebaseui";
 
 function Login() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const signout = () => {
         firebase.auth().signOut();
         setIsSignedIn(false);
+    }
+    const setUi = (ui: firebaseui.auth.AuthUI) => {
+        ui.reset();
     }
     const uiConfig = {
         callbacks: {
@@ -25,7 +29,7 @@ function Login() {
     };
     if (!isSignedIn) {
         return (
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            <StyledFirebaseAuth uiCallback={ui => setUi(ui)} uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
         );
     } else {
         return (
