@@ -5,12 +5,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { render } from 'react-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import TermsOfService from './features/terms-of-service/TermsOfService';
+import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
 
 const container = document.getElementById('root')!;
 render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="tos" element={<TermsOfService />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 , container);
