@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
 import { Button } from "@mui/material";
 import firebaseui from "firebaseui";
+import { EmailAuthProvider, getAuth } from 'firebase/auth';
+import { getApp } from 'firebase/app';
 
 function Login() {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const signout = () => {
-        firebase.auth().signOut();
+        getAuth(getApp()).signOut();
         setIsSignedIn(false);
     }
     const setUi = (ui: firebaseui.auth.AuthUI) => {
@@ -22,19 +22,19 @@ function Login() {
             }
         },
         signInOptions: [
-            firebase.auth.EmailAuthProvider.PROVIDER_ID
+            EmailAuthProvider.PROVIDER_ID
         ],
         tosUrl: 'tos',
         privacyPolicyUrl: 'privacy'
     };
     if (!isSignedIn) {
         return (
-            <StyledFirebaseAuth uiCallback={ui => setUi(ui)} uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            <StyledFirebaseAuth uiCallback={ui => setUi(ui)} uiConfig={uiConfig} firebaseAuth={getAuth(getApp())} />
         );
     } else {
         return (
             <div>
-                <p>Welcome {firebase.auth().currentUser?.displayName}</p>
+                <p>Welcome {getAuth(getApp()).currentUser?.displayName}</p>
                 <Button onClick={() => signout()}>Logout</Button>
             </div>
         )

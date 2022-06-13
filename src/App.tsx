@@ -2,11 +2,11 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import {FirebaseOptions, initializeApp} from 'firebase/app';
 import Login from './features/login/Login';
+import { getAuth } from 'firebase/auth';
 
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
   authDomain: "tokyo-hold-352402.firebaseapp.com",
   projectId: "tokyo-hold-352402",
@@ -15,7 +15,7 @@ const firebaseConfig = {
   appId: "1:257128045567:web:436ef5204f643916bd25ca",
   measurementId: "G-JM5LYE3H3J"
 };
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 function App() {
   return (
