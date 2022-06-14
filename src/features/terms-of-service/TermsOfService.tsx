@@ -1,7 +1,7 @@
 function TermsOfService() {
     return (
         <div>
-            <p>Terms of Service coming soon.</p>
+            <h1>Terms of Service coming soon.</h1>
         </div>
     )
 }
