@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {FirebaseOptions, initializeApp} from 'firebase/app';
+import {getAnalytics} from 'firebase/analytics';
 import Login from './features/login/Login';
 
 const firebaseConfig: FirebaseOptions = {
@@ -13,7 +14,8 @@ const firebaseConfig: FirebaseOptions = {
   appId: "1:257128045567:web:436ef5204f643916bd25ca",
   measurementId: "G-JM5LYE3H3J"
 };
-initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
+getAnalytics(firebaseApp);
 
 function App() {
   return (

@@ -9,6 +9,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import TermsOfService from './features/terms-of-service/TermsOfService';
 import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
+import User from './features/user/User';
+import Broken from './features/broken/Broken';
 
 const container = document.getElementById('root')!;
 render(
@@ -19,6 +21,8 @@ render(
           <Route path="/" element={<App />} />
           <Route path="tos" element={<TermsOfService />} />
           <Route path="privacy" element={<PrivacyPolicy />} />
+          <Route path="user" element={<User />} />
+          <Route path="*" element={<Broken />} />
         </Routes>
       </BrowserRouter>
     </Provider>
