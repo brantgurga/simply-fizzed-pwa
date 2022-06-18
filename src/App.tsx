@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import SvgIcon from '@mui/material/SvgIcon';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import TermsOfService from './features/terms-of-service/TermsOfService';
 import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
 import Broken from './features/broken/Broken';
@@ -26,7 +26,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { getAuth } from 'firebase/auth';
 
 const pages = ['Sodas', 'Soda Spots'];
-const settings = ['Account', 'Logout'];
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
@@ -41,8 +40,16 @@ const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
 
 function App() {
+  const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const user = getAuth(firebaseApp).currentUser;
+  const auth = getAuth(firebaseApp);
+  const user = auth.currentUser;
+  const settings = [{label: 'Account', handler: () => {
+    navigate('user');
+  }}, {label: 'Logout', handler: () => {
+    auth.signOut();
+    setIsSignedIn(false);
+  }}];
   const url = user?.photoURL || '';
   // If you want your app to work offline and load faster, you can change
   // unregister() to register() below. Note this comes with some pitfalls.
@@ -190,8 +197,8 @@ function App() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.label} onClick={setting.handler}>
+                  <Typography textAlign="center">{setting.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -199,7 +206,7 @@ function App() {
         </Toolbar>
       </Container>
     </AppBar>
-    <BrowserRouter>
+    
         <Routes>
           <Route path="/" element={<div className="App">
         <header className="App-header">
@@ -212,7 +219,6 @@ function App() {
           <Route path="user" element={<User />} />
           <Route path="*" element={<Broken />} />
         </Routes>
-      </BrowserRouter>
     </Box>
   );
 }
