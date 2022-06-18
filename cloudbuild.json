@@ -1,8 +1,10 @@
 {
-    "env": [
-        "GIT_AUTHOR_NAME=Build System",
-        "GIT_AUTHOR_EMAIL=noreply@gurganus.name"
-    ],
+    "options": {
+        "env": [
+            "GIT_AUTHOR_NAME=Build System",
+            "GIT_AUTHOR_EMAIL=noreply@gurganus.name"
+        ]
+    },
     "steps": [
         {
             "name": "node",
