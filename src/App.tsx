@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import SvgIcon from '@mui/material/SvgIcon';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import TermsOfService from './features/terms-of-service/TermsOfService';
 import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
 import Broken from './features/broken/Broken';
