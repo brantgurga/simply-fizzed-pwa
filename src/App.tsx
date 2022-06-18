@@ -11,13 +11,18 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useState } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import SvgIcon from '@mui/material/SvgIcon';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import TermsOfService from './features/terms-of-service/TermsOfService';
+import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
+import Broken from './features/broken/Broken';
+import User from './features/user/User';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -35,6 +40,17 @@ const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
 
 function App() {
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://cra.link/PWA
+  serviceWorkerRegistration.register({
+    onSuccess: (_registration) => {
+      alert('registered');
+    },
+    onUpdate: (_registration) => {
+      alert('updated');
+    }
+  });
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -179,12 +195,20 @@ function App() {
         </Toolbar>
       </Container>
     </AppBar>
-      <div className="App">
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <Login />
         </header>
-      </div>
+      </div>} />
+          <Route path="tos" element={<TermsOfService />} />
+          <Route path="privacy" element={<PrivacyPolicy />} />
+          <Route path="user" element={<User />} />
+          <Route path="*" element={<Broken />} />
+        </Routes>
+      </BrowserRouter>
     </Box>
   );
 }

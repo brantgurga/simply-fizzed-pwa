@@ -5,12 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { render } from 'react-dom';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import TermsOfService from './features/terms-of-service/TermsOfService';
-import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
-import User from './features/user/User';
-import Broken from './features/broken/Broken';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -22,23 +16,10 @@ render(
   <StrictMode>
     <CssBaseline enableColorScheme />
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="tos" element={<TermsOfService />} />
-          <Route path="privacy" element={<PrivacyPolicy />} />
-          <Route path="user" element={<User />} />
-          <Route path="*" element={<Broken />} />
-        </Routes>
-      </BrowserRouter>
+      <App />
     </Provider>
   </StrictMode>
 , container);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
