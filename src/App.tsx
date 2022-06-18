@@ -23,9 +23,10 @@ import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
 import Broken from './features/broken/Broken';
 import User from './features/user/User';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { getAuth } from 'firebase/auth';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Sodas', 'Soda Spots'];
+const settings = ['Account', 'Logout'];
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
@@ -40,6 +41,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
 
 function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const user = getAuth(firebaseApp).currentUser;
+  const url = user?.photoURL || '';
   // If you want your app to work offline and load faster, you can change
   // unregister() to register() below. Note this comes with some pitfalls.
   // Learn more about service workers: https://cra.link/PWA
@@ -166,7 +170,7 @@ function App() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={user?.displayName || ''} src={url} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -200,7 +204,7 @@ function App() {
           <Route path="/" element={<div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Login />
+          <Login signedInState={{setIsSignedIn: setIsSignedIn, isSignedIn: isSignedIn}} />
         </header>
       </div>} />
           <Route path="tos" element={<TermsOfService />} />

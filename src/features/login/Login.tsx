@@ -1,23 +1,28 @@
-import { useState } from "react";
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { Button } from "@mui/material";
 import firebaseui from "firebaseui";
 import { EmailAuthProvider, getAuth } from 'firebase/auth';
 import { getApp } from 'firebase/app';
 
-function Login() {
-    const [isSignedIn, setIsSignedIn] = useState(false);
+interface LoginProps {
+    signedInState: {
+        setIsSignedIn: (newSignedInValue: boolean) => void;
+        isSignedIn: boolean;
+    }
+}
+
+function Login(props: LoginProps) {
     const signout = () => {
         getAuth(getApp()).signOut();
-        setIsSignedIn(false);
+        props.signedInState.setIsSignedIn(false);
     }
     const setUi = (ui: firebaseui.auth.AuthUI) => {
         ui.reset();
     }
     const uiConfig = {
         callbacks: {
-            signInSuccessWithAuthResult: (authResult: any) => {
-                setIsSignedIn(true);
+            signInSuccessWithAuthResult: (_authResult: any) => {
+                props.signedInState.setIsSignedIn(true);
                 return false;
             }
         },
@@ -27,7 +32,7 @@ function Login() {
         tosUrl: 'tos',
         privacyPolicyUrl: 'privacy'
     };
-    if (!isSignedIn) {
+    if (!props.signedInState.isSignedIn) {
         return (
             <StyledFirebaseAuth uiCallback={ui => setUi(ui)} uiConfig={uiConfig} firebaseAuth={getAuth(getApp())} />
         );
