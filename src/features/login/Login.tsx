@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { Button } from "@mui/material";
 import firebaseui from "firebaseui";

@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
@@ -14,7 +14,7 @@ import Broken from './features/broken/Broken';
 
 const container = document.getElementById('root')!;
 render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -26,7 +26,7 @@ render(
         </Routes>
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>
+  </StrictMode>
 , container);
 
 // If you want your app to work offline and load faster, you can change
