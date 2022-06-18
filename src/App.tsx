@@ -82,6 +82,7 @@ function App() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const version = process.env.REACT_APP_VERSION;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -222,6 +223,8 @@ function App() {
           <Route path="user" element={<User />} />
           <Route path="*" element={<Broken />} />
         </Routes>
+        <Container sx={{textAlign: 'center'}}>Copyright &copy; 2022 Brant Gurganus</Container>
+        <Container sx={{textAlign: 'center'}}>Version {version}</Container>
     </Box>
   );
 }

@@ -20,6 +20,14 @@
             "args": [
                 "deploy"
             ]
+        },
+        {
+            "name": "node",
+            "entrypoint": "npm",
+            "args": [
+                "version",
+                "minor"
+            ]
         }
     ]
 }
