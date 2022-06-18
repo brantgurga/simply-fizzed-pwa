@@ -11,10 +11,16 @@ import TermsOfService from './features/terms-of-service/TermsOfService';
 import PrivacyPolicy from './features/privacy-policy/PrivacyPolicy';
 import User from './features/user/User';
 import Broken from './features/broken/Broken';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const container = document.getElementById('root')!;
 render(
   <StrictMode>
+    <CssBaseline enableColorScheme />
     <Provider store={store}>
       <BrowserRouter>
         <Routes>

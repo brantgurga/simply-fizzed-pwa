@@ -2,7 +2,10 @@
   "name": "simply-fizzed-pwa",
   "version": "0.1.0",
   "description": "Simply Fizzed allows tracking of soda availability and consumption.",
-  "keywords": ["soda", "pop"],
+  "keywords": [
+    "soda",
+    "pop"
+  ],
   "license": "UNLICENSED",
   "author": {
     "name": "Brant Gurganus",
@@ -13,6 +16,8 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.7",
+    "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.3",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",
