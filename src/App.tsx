@@ -24,6 +24,7 @@ import Broken from './features/broken/Broken';
 import User from './features/user/User';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { getAuth } from 'firebase/auth';
+import { Md5 } from 'md5-typescript';
 
 const pages = ['Sodas', 'Soda Spots'];
 
@@ -42,15 +43,19 @@ getAnalytics(firebaseApp);
 function App() {
   const navigate = useNavigate();
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const auth = getAuth(firebaseApp);
   const user = auth.currentUser;
   const settings = [{label: 'Account', handler: () => {
     navigate('user');
   }}, {label: 'Logout', handler: () => {
-    auth.signOut();
-    setIsSignedIn(false);
+    auth.signOut().then(() => {
+      setAnchorElUser(null);
+      setIsSignedIn(false);
+    });
   }}];
-  const url = user?.photoURL || '';
+  const url = user?.photoURL || user?.email ? `https://www.gravatar.com/avatar/${Md5.init(user?.email)}` : '';
   // If you want your app to work offline and load faster, you can change
   // unregister() to register() below. Note this comes with some pitfalls.
   // Learn more about service workers: https://cra.link/PWA
@@ -62,9 +67,7 @@ function App() {
       alert('updated');
     }
   });
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
+  
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };

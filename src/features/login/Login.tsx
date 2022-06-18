@@ -13,8 +13,9 @@ interface LoginProps {
 
 function Login(props: LoginProps) {
     const signout = () => {
-        getAuth(getApp()).signOut();
-        props.signedInState.setIsSignedIn(false);
+        getAuth(getApp()).signOut().then(() => {
+            props.signedInState.setIsSignedIn(false);
+        });
     }
     const setUi = (ui: firebaseui.auth.AuthUI) => {
         ui.reset();
