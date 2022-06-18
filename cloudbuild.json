@@ -33,6 +33,10 @@
             "args": [
                 "version",
                 "minor"
+            ],
+            "env": [
+                "GIT_AUTHOR_NAME=BuildSystem",
+                "GIT_AUTHOR_EMAIL=noreply@gurganus.name"
             ]
         }
     ]
