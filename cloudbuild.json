@@ -39,6 +39,23 @@
                 "GIT_AUTHOR_EMAIL=noreply@gurganus.name",
                 "EMAIL=noreply@gurganus.name"
             ]
+        },
+        {
+            "name": "gcr.io/cloud-builders/git",
+            "args": [
+                "push",
+                "origin",
+                "master"
+            ]
+        },
+        {
+            "name": "gcr.io/cloud-builders/git",
+            "args": [
+                "push",
+                "--tags",
+                "origin",
+                "master"
+            ]
         }
     ]
 }
