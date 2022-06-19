@@ -27,6 +27,8 @@ import { getAuth } from "firebase/auth";
 import { Md5 } from "md5-typescript";
 import SodaSpots from "./features/soda-spots/SodaSpots";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import Snackbar from "@mui/material/Snackbar";
+import CloseIcon from "@mui/icons-material/Close";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
@@ -58,6 +60,7 @@ initializeAppCheck(firebaseApp, {
 
 function App() {
   const navigate = useNavigate();
+  const [message, setMessage] = useState<string>("");
   const pages = [
     {
       label: "Sodas",
@@ -106,10 +109,12 @@ function App() {
   // Learn more about service workers: https://cra.link/PWA
   serviceWorkerRegistration.register({
     onSuccess: (_registration) => {
-      alert("registered");
+      setMessage("The app is now available offline.");
     },
     onUpdate: (_registration) => {
-      alert("updated");
+      setMessage(
+        "The app has been updated and you'll run the new version when all tabs running the app close."
+      );
     },
   });
 
@@ -283,6 +288,23 @@ function App() {
         Copyright &copy; 2022 Brant Gurganus
       </Container>
       <Container sx={{ textAlign: "center" }}>Version {version}</Container>
+      <Snackbar
+        action={
+          <IconButton
+            onClick={() => {
+              setMessage("");
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
+        autoHideDuration={6000}
+        open={message !== ""}
+        onClose={() => {
+          setMessage("");
+        }}
+        message={message}
+      />
     </Box>
   );
 }
