@@ -25,8 +25,7 @@ import User from './features/user/User';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { getAuth } from 'firebase/auth';
 import { Md5 } from 'md5-typescript';
-
-const pages = ['Sodas', 'Soda Spots'];
+import SodaSpots from './features/soda-spots/SodaSpots';
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
@@ -42,6 +41,11 @@ getAnalytics(firebaseApp);
 
 function App() {
   const navigate = useNavigate();
+  const pages = [{label: 'Sodas', handler: () => {
+    navigate('sodas');
+  }}, {label:'Soda Spots', handler: () => {
+    navigate('soda-spots');
+  }}];
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -139,8 +143,8 @@ function App() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.label} onClick={page.handler}>
+                  <Typography textAlign="center">{page.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -169,11 +173,11 @@ function App() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.label}
+                onClick={page.handler}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
@@ -221,6 +225,7 @@ function App() {
           <Route path="tos" element={<TermsOfService />} />
           <Route path="privacy" element={<PrivacyPolicy />} />
           <Route path="user" element={<User />} />
+          <Route path="soda-spots" element={<SodaSpots />} />
           <Route path="*" element={<Broken />} />
         </Routes>
         <Container sx={{textAlign: 'center'}}>Copyright &copy; 2022 Brant Gurganus</Container>
