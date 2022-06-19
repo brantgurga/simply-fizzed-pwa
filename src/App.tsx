@@ -26,6 +26,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { getAuth } from "firebase/auth";
 import { Md5 } from "md5-typescript";
 import SodaSpots from "./features/soda-spots/SodaSpots";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
@@ -38,6 +39,10 @@ const firebaseConfig: FirebaseOptions = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
+initializeAppCheck(firebaseApp, {
+  provider: new ReCaptchaV3Provider("6Ledo4IgAAAAAPImeIqZGn1Xxy8JQ-O8la6a7zf5"),
+  isTokenAutoRefreshEnabled: true,
+});
 
 function App() {
   const navigate = useNavigate();
