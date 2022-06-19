@@ -7,7 +7,7 @@
   },
   "steps": [
     {
-      "name": "gcr.io/cloud-builders/git",
+      "name": "google.com/cloudsdktool/cloud-sdk",
       "entrypoint": "bash",
       "args": ["-c", "'! git log -1 --pretty=%B|grep SKIPBUILD'"]
     },
