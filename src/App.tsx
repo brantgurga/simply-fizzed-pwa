@@ -40,7 +40,9 @@ const firebaseConfig: FirebaseOptions = {
 const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
 initializeAppCheck(firebaseApp, {
-  provider: new ReCaptchaV3Provider("6Ledo4IgAAAAAPImeIqZGn1Xxy8JQ-O8la6a7zf5"),
+  provider: new ReCaptchaV3Provider(
+    process.env.REACT_APP_RECAPTCHA_KEY as string
+  ),
   isTokenAutoRefreshEnabled: true,
 });
 
