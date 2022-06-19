@@ -7,6 +7,10 @@
   },
   "steps": [
     {
+      "name": "gcr.io/cloud-builders/git",
+      "shell": "! git log -1 --pretty=%B|grep SKIPBUILD"
+    },
+    {
       "name": "node",
       "entrypoint": "npm",
       "args": ["install"]
@@ -28,7 +32,12 @@
     {
       "name": "node",
       "entrypoint": "npm",
-      "args": ["version", "minor"],
+      "args": [
+        "version",
+        "minor",
+        "-m",
+        "'SKIPBUILD for pushed version update %s'"
+      ],
       "env": [
         "GIT_AUTHOR_NAME=BuildSystem",
         "GIT_AUTHOR_EMAIL=noreply@gurganus.name",
