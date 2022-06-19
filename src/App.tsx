@@ -39,6 +39,16 @@ const firebaseConfig: FirebaseOptions = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
+declare global {
+  interface Window {
+    FIREBASE_APPCHECK_DEBUG_TOKEN: string;
+  }
+}
+if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+  // eslint-disable-next-line no-restricted-globals
+  self.FIREBASE_APPCHECK_DEBUG_TOKEN = process.env
+    .REACT_APP_RECAPTCHA_KEY as string;
+}
 initializeAppCheck(firebaseApp, {
   provider: new ReCaptchaV3Provider(
     process.env.REACT_APP_RECAPTCHA_KEY as string
