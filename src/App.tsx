@@ -45,12 +45,14 @@ function App() {
     {
       label: "Sodas",
       handler: () => {
+        handleCloseNavMenu();
         navigate("sodas");
       },
     },
     {
       label: "Soda Spots",
       handler: () => {
+        handleCloseNavMenu();
         navigate("soda-spots");
       },
     },
@@ -64,6 +66,7 @@ function App() {
     {
       label: "Account",
       handler: () => {
+        handleCloseUserMenu();
         navigate("user");
       },
     },
@@ -71,7 +74,7 @@ function App() {
       label: "Logout",
       handler: () => {
         auth.signOut().then(() => {
-          setAnchorElUser(null);
+          handleCloseUserMenu();
           setIsSignedIn(false);
         });
       },
