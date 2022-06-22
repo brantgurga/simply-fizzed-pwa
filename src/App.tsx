@@ -1,7 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { FirebaseOptions, initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getApp } from "firebase/app";
 import Login from "./features/login/Login";
 import AppBar from "@mui/material/AppBar";
 import Container from "@mui/system/Container";
@@ -26,37 +25,8 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { getAuth } from "firebase/auth";
 import { Md5 } from "md5-typescript";
 import SodaSpots from "./features/soda-spots/SodaSpots";
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
-
-const firebaseConfig: FirebaseOptions = {
-  apiKey: "AIzaSyA_nQdMwa1kKXPjVtoSkZKlf2rxfctnRF8",
-  authDomain: "tokyo-hold-352402.firebaseapp.com",
-  projectId: "tokyo-hold-352402",
-  storageBucket: "tokyo-hold-352402.appspot.com",
-  messagingSenderId: "257128045567",
-  appId: "1:257128045567:web:436ef5204f643916bd25ca",
-  measurementId: "G-JM5LYE3H3J",
-};
-const firebaseApp = initializeApp(firebaseConfig);
-getAnalytics(firebaseApp);
-declare global {
-  interface Window {
-    FIREBASE_APPCHECK_DEBUG_TOKEN: string;
-  }
-}
-if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
-  // eslint-disable-next-line no-restricted-globals
-  self.FIREBASE_APPCHECK_DEBUG_TOKEN = process.env
-    .REACT_APP_RECAPTCHA_KEY as string;
-}
-initializeAppCheck(firebaseApp, {
-  provider: new ReCaptchaV3Provider(
-    process.env.REACT_APP_RECAPTCHA_KEY as string
-  ),
-  isTokenAutoRefreshEnabled: true,
-});
 
 function App() {
   const navigate = useNavigate();
@@ -77,11 +47,11 @@ function App() {
       },
     },
   ];
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const auth = getAuth(getApp());
+  const user = auth.currentUser;
+  const [isSignedIn, setIsSignedIn] = useState(auth.currentUser != null);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const auth = getAuth(firebaseApp);
-  const user = auth.currentUser;
   const settings = [
     {
       label: "Account",
