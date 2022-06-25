@@ -24,18 +24,25 @@ function User() {
   const [originalPassword, setOriginalPassword] = useState("");
   const [emailUpdated, setEmailUpdated] = useState(false);
   const [displayNameUpdated, setDisplayNameUpdated] = useState(false);
+  const [authenticationFailure, setAuthenticationFailure] = useState(false);
   const originalEmail = user?.email || "";
   const changeEmail = (email: string) => {
     if (user !== null) {
       reauthenticateWithCredential(
         user,
         EmailAuthProvider.credential(originalEmail, originalPassword)
-      ).then(() => {
-        updateEmail(user, email).then(() => {
-          setEmailUpdated(true);
-          setUser(getAuth(getApp()).currentUser);
+      )
+        .then(() => {
+          updateEmail(user, email).then(() => {
+            setAuthenticationFailure(false);
+            setEmailUpdated(true);
+            setUser(getAuth(getApp()).currentUser);
+          });
+        })
+        .catch((reason) => {
+          setAuthenticationFailure(true);
+          setEmailUpdated(false);
         });
-      });
     }
   };
   const [chosenTab, setChosenTab] = useState("0");
@@ -45,12 +52,19 @@ function User() {
       reauthenticateWithCredential(
         user,
         EmailAuthProvider.credential(originalEmail, originalPassword)
-      ).then(() => {
-        updatePassword(user, password).then(() => {
-          setPassword("");
-          setPasswordChanged(true);
+      )
+        .then(() => {
+          updatePassword(user, password).then(() => {
+            setPassword("");
+            setOriginalPassword("");
+            setPasswordChanged(true);
+            setAuthenticationFailure(false);
+          });
+        })
+        .catch((_reason) => {
+          setAuthenticationFailure(true);
+          setPasswordChanged(false);
         });
-      });
     }
   };
   const updateDisplayName = (newDisplayName: string) => {
@@ -66,8 +80,9 @@ function User() {
       <h1>User management</h1>
       <TabContext value={chosenTab}>
         <TabList
-          onChange={(event, newValue) => {
+          onChange={(_event, newValue) => {
             setChosenTab(newValue);
+            setAuthenticationFailure(false);
           }}
         >
           <Tab label="Password" value="0" />
@@ -78,10 +93,17 @@ function User() {
           {passwordChanged && (
             <Alert severity="success">Password Changed!</Alert>
           )}
+          {authenticationFailure && (
+            <Alert severity="error">
+              Something went wrong verifying who you are. Check your original
+              password and try again.
+            </Alert>
+          )}
           <TextField
             label="Original Password"
             required
             type="password"
+            defaultValue={originalPassword}
             onBlur={(event) => {
               setOriginalPassword(event.target.value);
             }}
@@ -90,6 +112,7 @@ function User() {
             onBlur={(event) => {
               setPassword(event.target.value);
             }}
+            defaultValue={password}
             id="password"
             label="Password"
             type="password"
@@ -105,6 +128,12 @@ function User() {
         </TabPanel>
         <TabPanel value="1">
           {emailUpdated && <Alert severity="success">E-mail updated!</Alert>}
+          {authenticationFailure && (
+            <Alert severity="error">
+              Something went wrong verifying who you are. Check your original
+              password and try again.
+            </Alert>
+          )}
           <TextField
             label="Original Password"
             required
