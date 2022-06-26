@@ -3,10 +3,15 @@ import { ReactElement, useEffect, useState } from "react";
 import { getApp } from "firebase/app";
 import {
   collection,
+  DocumentData,
+  FirestoreDataConverter,
   GeoPoint,
   getDocs,
   getFirestore,
   query,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+  WithFieldValue,
 } from "firebase/firestore";
 import Map from "../GoogleMap/Map";
 import { CircularProgress } from "@mui/material";
@@ -25,15 +30,62 @@ function SodaSpots() {
   useEffect(() => {
     const db = getFirestore(getApp());
     const sodaSpots = collection(db, "soda-spots");
-    const allSodaSpots = query(sodaSpots);
+    interface LatLongPair {
+      latitude: number;
+      longitude: number;
+    }
+    interface SodaSpot {
+      name: string;
+      geolocation: LatLongPair;
+    }
+    const sodaSpotConverter: FirestoreDataConverter<SodaSpot> = {
+      toFirestore: function (
+        modelObject: WithFieldValue<SodaSpot>
+      ): DocumentData {
+        const geolocation = modelObject.geolocation;
+        if ("latitude" in geolocation) {
+          if (
+            typeof geolocation.latitude === "number" &&
+            typeof geolocation.longitude === "number"
+          ) {
+            return {
+              name: modelObject.name,
+              geolocation: new GeoPoint(
+                geolocation.latitude,
+                geolocation.longitude
+              ),
+            };
+          } else {
+            return { name: modelObject.name };
+          }
+        } else {
+          return { name: modelObject.name };
+        }
+      },
+      fromFirestore: function (
+        snapshot: QueryDocumentSnapshot<DocumentData>,
+        options?: SnapshotOptions | undefined
+      ): SodaSpot {
+        const data = snapshot.data(options);
+        const geolocation = data.geolocation;
+        return {
+          name: data.name,
+          geolocation: {
+            latitude: geolocation.latitude,
+            longitude: geolocation.longitude,
+          },
+        };
+      },
+    };
+    const allSodaSpots = query(sodaSpots).withConverter(sodaSpotConverter);
     const allSodaSpotsDetails = getDocs(allSodaSpots);
     const newPositions: google.maps.Marker[] = [];
     allSodaSpotsDetails
       .then((value) => {
         value.forEach((sodaSpot) => {
           const data = sodaSpot.data();
-          const location = data.geolocation as GeoPoint;
-          const name = data.name as string;
+          const location = data.geolocation;
+          const name = data.name;
           newPositions.push(
             new google.maps.Marker({
               label: name,
