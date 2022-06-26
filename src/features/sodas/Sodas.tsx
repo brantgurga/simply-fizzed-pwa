@@ -43,8 +43,10 @@ const Sodas: React.FC = () => {
     },
   };
   const sodas = collection(db, "sodas").withConverter(sodaConverter);
+  const reload = false;
   useEffect(() => {
     const allSodas = query(sodas);
+    let unmounted = false;
     const allSodasDetails = getDocs(allSodas);
     allSodasDetails.then((value) => {
       const newSodas: Soda[] = [];
@@ -52,9 +54,14 @@ const Sodas: React.FC = () => {
         const data = soda.data();
         newSodas.push(data);
       });
-      setSodaList(newSodas);
+      if (!unmounted) {
+        setSodaList(newSodas);
+      }
     });
-  });
+    return () => {
+      unmounted = true;
+    };
+  }, [reload]);
   const addSoda = () => {
     addDoc<Soda>(sodas, { brand: newSodaBrand, flavor: newSodaFlavor }).then(
       () => {
