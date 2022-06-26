@@ -27,6 +27,7 @@ import { Md5 } from "md5-typescript";
 import SodaSpots from "./features/soda-spots/SodaSpots";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
+import Sodas from "./features/sodas/Sodas";
 
 function App() {
   const navigate = useNavigate();
@@ -61,12 +62,16 @@ function App() {
       },
     },
     {
-      label: "Logout",
+      label: isSignedIn ? "Logout" : "Login",
       handler: () => {
-        auth.signOut().then(() => {
-          handleCloseUserMenu();
-          setIsSignedIn(false);
-        });
+        if (isSignedIn) {
+          auth.signOut().then(() => {
+            handleCloseUserMenu();
+            setIsSignedIn(false);
+          });
+        } else {
+          navigate("/");
+        }
       },
     },
   ];
@@ -172,7 +177,7 @@ function App() {
               variant="h5"
               noWrap
               component="a"
-              href=""
+              href="/"
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -251,6 +256,7 @@ function App() {
         <Route path="tos" element={<TermsOfService />} />
         <Route path="privacy" element={<PrivacyPolicy />} />
         <Route path="user" element={<User />} />
+        <Route path="sodas" element={<Sodas />} />
         <Route path="soda-spots" element={<SodaSpots />} />
         <Route path="*" element={<Broken />} />
       </Routes>
