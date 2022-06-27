@@ -45,23 +45,25 @@ const Sodas: React.FC = () => {
   const sodas = collection(db, "sodas").withConverter(sodaConverter);
   const reload = false;
   useEffect(() => {
-    const allSodas = query(sodas);
-    let unmounted = false;
-    const allSodasDetails = getDocs(allSodas);
-    allSodasDetails.then((value) => {
-      const newSodas: Soda[] = [];
-      value.forEach((soda) => {
-        const data = soda.data();
-        newSodas.push(data);
+    if (reload) {
+      const allSodas = query(sodas);
+      let unmounted = false;
+      const allSodasDetails = getDocs(allSodas);
+      allSodasDetails.then((value) => {
+        const newSodas: Soda[] = [];
+        value.forEach((soda) => {
+          const data = soda.data();
+          newSodas.push(data);
+        });
+        if (!unmounted) {
+          setSodaList(newSodas);
+        }
       });
-      if (!unmounted) {
-        setSodaList(newSodas);
-      }
-    });
-    return () => {
-      unmounted = true;
-    };
-  }, [reload]);
+      return () => {
+        unmounted = true;
+      };
+    }
+  }, [reload, sodas]);
   const addSoda = () => {
     addDoc<Soda>(sodas, { brand: newSodaBrand, flavor: newSodaFlavor }).then(
       () => {
