@@ -14,7 +14,10 @@ import {
   WithFieldValue,
 } from "firebase/firestore";
 import Map from "../GoogleMap/Map";
-import { CircularProgress } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 
 const render = (status: Status): ReactElement => {
   switch (status) {
@@ -88,7 +91,7 @@ function SodaSpots() {
           const name = data.name;
           newPositions.push(
             new google.maps.Marker({
-              label: name,
+              label: { text: name },
               position: { lat: location.latitude, lng: location.longitude },
             })
           );
@@ -101,14 +104,23 @@ function SodaSpots() {
       });
   }, [positions]);
   return (
-    <Wrapper apiKey="AIzaSyCmqXemln5UJb7BkFS4h_KTsAycFxR-H0c" render={render}>
-      <Map
-        style={{ width: "50%", height: "300px" }}
-        zoom={3}
-        center={{ lat: 40.276389, lng: -95.530342 }}
-        markers={positions}
-      ></Map>
-    </Wrapper>
+    <Container>
+      <Wrapper apiKey="AIzaSyCmqXemln5UJb7BkFS4h_KTsAycFxR-H0c" render={render}>
+        <Map
+          style={{ width: "50%", height: "300px" }}
+          zoom={3}
+          center={{ lat: 40.276389, lng: -95.530342 }}
+          markers={positions}
+        ></Map>
+      </Wrapper>
+      <List>
+        {positions.map((marker, index) => {
+          const label = marker.getLabel();
+          return <ListItem key={index}>{label?.text}</ListItem>;
+        })}
+        <ListItem key="new-place"></ListItem>
+      </List>
+    </Container>
   );
 }
 
