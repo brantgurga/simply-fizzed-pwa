@@ -11,6 +11,7 @@ import {
   FirestoreDataConverter,
   getDocs,
   getFirestore,
+  orderBy,
   query,
   QueryDocumentSnapshot,
   SnapshotOptions,
@@ -43,10 +44,10 @@ const Sodas: React.FC = () => {
     },
   };
   const sodas = collection(db, "sodas").withConverter(sodaConverter);
-  const reload = false;
+  const [reload, setReload] = useState(true);
   useEffect(() => {
     if (reload) {
-      const allSodas = query(sodas);
+      const allSodas = query(sodas, orderBy("brand"), orderBy("flavor"));
       let unmounted = false;
       const allSodasDetails = getDocs(allSodas);
       allSodasDetails.then((value) => {
@@ -57,6 +58,7 @@ const Sodas: React.FC = () => {
         });
         if (!unmounted) {
           setSodaList(newSodas);
+          setReload(false);
         }
       });
       return () => {
