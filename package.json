@@ -53,7 +53,18 @@
       "react-app",
       "react-app/jest",
       "prettier"
-    ]
+    ],
+    "rules": {
+      "no-restricted-imports": [
+        "error",
+        {
+          "patterns": [
+            "@mui/*/*/*",
+            "!@mui/material/test-utils/*"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
