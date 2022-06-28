@@ -22,6 +22,7 @@ import ListItem from "@mui/material/ListItem";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { getAuth } from "firebase/auth";
 
 const render = (status: Status): ReactElement => {
   switch (status) {
@@ -127,9 +128,10 @@ function SodaSpots() {
       setNewPlace("");
     });
   };
+  const signedOut = getAuth(getApp()).currentUser == null;
   return (
     <Grid container columns={2}>
-      <Grid item sx={{ width: "50%" }}>
+      <Grid item sx={{ width: { xs: "100%", sm: "50%" } }}>
         <Wrapper
           apiKey="AIzaSyCmqXemln5UJb7BkFS4h_KTsAycFxR-H0c"
           render={render}
@@ -150,6 +152,8 @@ function SodaSpots() {
           })}
           <ListItem key="new-place">
             <TextField
+              required
+              disabled={signedOut}
               label="New Place Name"
               defaultValue={newPlace}
               onBlur={(event) => {
@@ -157,6 +161,7 @@ function SodaSpots() {
               }}
             />
             <Button
+              disabled={signedOut}
               onClick={() => {
                 addNewPlace();
               }}
