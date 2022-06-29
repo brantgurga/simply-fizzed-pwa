@@ -5,7 +5,8 @@ function Broken() {
     <div>
       <h1>Broken</h1>
       <p>
-        You've reached a bad destination. <Link to="/">Try starting over.</Link>
+        You&apos;ve reached a bad destination.{" "}
+        <Link to="/">Try starting over.</Link>
       </p>
     </div>
   );

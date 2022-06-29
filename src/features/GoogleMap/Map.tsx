@@ -1,5 +1,10 @@
-import React, { useEffect } from "react";
-import { Children, PropsWithChildren, useRef, useState } from "react";
+import React, {
+  useEffect,
+  Children,
+  PropsWithChildren,
+  useRef,
+  useState,
+} from "react";
 
 interface MapProps extends google.maps.MapOptions {
   style: { [key: string]: string };
