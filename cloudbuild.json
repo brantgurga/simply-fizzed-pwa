@@ -7,11 +7,6 @@
   },
   "steps": [
     {
-      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk",
-      "entrypoint": "bash",
-      "args": ["-c", "! git log -1 --pretty=%B|grep SKIPBUILD"]
-    },
-    {
       "name": "node",
       "entrypoint": "npm",
       "args": ["install"]
@@ -37,7 +32,7 @@
         "version",
         "minor",
         "-m",
-        "'SKIPBUILD for pushed version update %s'"
+        "'[skip ci] for pushed version update %s'"
       ],
       "env": [
         "GIT_AUTHOR_NAME=BuildSystem",
