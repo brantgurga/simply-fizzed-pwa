@@ -1,10 +1,4 @@
 {
-  "options": {
-    "env": [
-      "GIT_AUTHOR_NAME=BuildSystem",
-      "GIT_AUTHOR_EMAIL=noreply@gurganus.name"
-    ]
-  },
   "steps": [
     {
       "name": "node",
@@ -22,7 +16,7 @@
       "args": ["run", "build"]
     },
     {
-      "name": "gcr.io/$PROJECT_ID/firebase",
+      "name": "us-central1-docker.pkg.dev/$PROJECT_ID/docker-images/firebase",
       "args": ["deploy"]
     },
     {
